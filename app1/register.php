@@ -9,26 +9,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = trim($_POST['password']);
 
     if (!empty($usuario) && !empty($password)) {
-        // 1. Verificar si el usuario ya existe en la base de datos
+        // 1. Verificar si el usuario ya existe
         $stmt_check = $conn->prepare("SELECT id FROM usuarios WHERE usuario = ?");
         $stmt_check->bind_param("s", $usuario);
         $stmt_check->execute();
         $stmt_check->store_result();
 
         if ($stmt_check->num_rows > 0) {
-            $mensaje = "El usuario ya existe. Por favor, elige otro alias.";
+            $mensaje = "El usuario ya existe en la base de datos.";
             $tipo_mensaje = "error";
         } else {
-            // 2. Cifrar la contraseña usando SHA1 (para mantener compatibilidad con la BD actual)
+            // 2. Insertar en BD
             $password_hashed = sha1($password);
-
-            // 3. Insertar el nuevo usuario
             $stmt_insert = $conn->prepare("INSERT INTO usuarios (usuario, password) VALUES (?, ?)");
             $stmt_insert->bind_param("ss", $usuario, $password_hashed);
 
             if ($stmt_insert->execute()) {
-                $mensaje = "Usuario registrado con éxito. <a href='login.php' style='color: var(--accent); font-weight: bold;'>Ir al Login</a>";
-                $tipo_mensaje = "success";
+                // --- INICIO INTEGRACIÓN MULTIOTP ---
+                $app_dir = __DIR__;
+                $multiotp_dir = realpath($app_dir . '/../multiotp_5.10.2.2/windows');
+
+                $qr_dir = $app_dir . '/qrcodes';
+                if (!is_dir($qr_dir)) {
+                    mkdir($qr_dir, 0777, true);
+                }
+
+                $qr_filename = "qr_" . $usuario . ".png";
+                $qr_path = $qr_dir . '/' . $qr_filename;
+
+                if ($multiotp_dir) {
+                    chdir($multiotp_dir);
+
+                    $cmd_create = "multiotp.exe -fastcreatenopin " . escapeshellarg($usuario);
+                    exec($cmd_create);
+
+                    $cmd_qr = "multiotp.exe -qrcode " . escapeshellarg($usuario) . " " . escapeshellarg($qr_path);
+                    exec($cmd_qr);
+
+                    chdir($app_dir);
+
+                    if (file_exists($qr_path)) {
+                        $mensaje = "¡Registro exitoso! <strong>Escanea este código QR</strong> en tu aplicación (FreeOTP, Google Auth, etc).<br>";
+                        $mensaje .= "<img src='qrcodes/" . $qr_filename . "' style='margin-top:15px; border-radius:8px; border: 1px solid #ccc; max-width: 250px;'><br><br>";
+                        $mensaje .= "<a href='login.php' style='display:inline-block; padding:8px 15px; background:var(--accent); color:white; text-decoration:none; border-radius:5px;'>Ir al Login</a>";
+                        $tipo_mensaje = "success";
+                    } else {
+                        $mensaje = "Usuario guardado en BD, pero falló la generación del QR en multiOTP.";
+                        $tipo_mensaje = "error";
+                    }
+                } else {
+                    $mensaje = "No se encontró el directorio de multiOTP. Revisa las carpetas.";
+                    $tipo_mensaje = "error";
+                }
+                // --- FIN INTEGRACIÓN MULTIOTP ---
             } else {
                 $mensaje = "Error al registrar el usuario: " . $conn->error;
                 $tipo_mensaje = "error";
@@ -48,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Usuario</title>
+    <title>Registro de Usuario - 2FA</title>
     <style>
         :root {
             --bg: #f3f7fb;
@@ -87,6 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 16px;
             padding: 28px;
             box-shadow: 0 12px 30px rgba(27, 42, 65, 0.1);
+            text-align: center;
         }
 
         h1 {
@@ -115,6 +149,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .success {
             background: var(--success-bg);
             color: var(--success-text);
+        }
+
+        form {
+            text-align: left;
         }
 
         label {
@@ -175,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main class="card">
         <h1>Registrar Usuario</h1>
-        <p class="subtitle">Añade un nuevo usuario a la base de datos</p>
+        <p class="subtitle">Añade un nuevo usuario y configura su 2FA</p>
 
         <?php if (!empty($mensaje)): ?>
             <div class="alert <?php echo $tipo_mensaje; ?>">
@@ -183,17 +221,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="register.php" autocomplete="off">
-            <label for="usuario">Usuario</label>
-            <input id="usuario" type="text" name="usuario" required>
+        <!-- Si el registro fue exitoso, ocultamos el formulario para que solo vea el QR -->
+        <?php if ($tipo_mensaje !== 'success'): ?>
+            <form method="POST" action="register.php" autocomplete="off">
+                <label for="usuario">Usuario</label>
+                <input id="usuario" type="text" name="usuario" required>
 
-            <label for="password">Contraseña</label>
-            <input id="password" type="password" name="password" required>
+                <label for="password">Contraseña</label>
+                <input id="password" type="password" name="password" required>
 
-            <button type="submit">Registrar</button>
-        </form>
-
-        <a href="login.php" class="login-link">¿Ya tienes cuenta? Inicia sesión aquí</a>
+                <button type="submit">Registrar y Generar QR</button>
+            </form>
+            <a href="login.php" class="login-link">¿Ya tienes cuenta? Inicia sesión aquí</a>
+        <?php endif; ?>
     </main>
 
 </body>

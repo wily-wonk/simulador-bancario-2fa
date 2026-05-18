@@ -1,33 +1,35 @@
 <?php
 session_start();
-require_once "conexion.php";
+require 'conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $usuario = isset($_POST["usuario"]) ? trim($_POST["usuario"]) : "";
-    $passwordPlano = isset($_POST["password"]) ? $_POST["password"] : "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = trim($_POST['usuario'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-    if ($usuario === "" || $passwordPlano === "") {
+    if ($usuario === '' || $password === '') {
         header("Location: login.php?error=2");
-        exit();
+        exit;
     }
 
-    $password = sha1($passwordPlano);
+    $password_hashed = sha1($password);
 
-    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE usuario = ? AND password = ?");
-    $stmt->bind_param("ss", $usuario, $password);
+    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE usuario = ? AND password = ?");
+    $stmt->bind_param("ss", $usuario, $password_hashed);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->store_result();
 
-    if ($result->num_rows > 0) {
-        $_SESSION["usuario"] = $usuario;
-        header("Location: dashboard.php");
-        exit();
+    if ($stmt->num_rows > 0) {
+        // Credenciales correctas. Pasamos a la Fase 2 (OTP)
+        $_SESSION['pre_auth_user'] = $usuario;
+        header("Location: 2fa.php");
+        exit;
+    } else {
+        // Fallo en credenciales
+        header("Location: login.php?error=1");
+        exit;
     }
-
-    header("Location: login.php?error=1");
-    exit();
+    $stmt->close();
+} else {
+    header("Location: login.php");
+    exit;
 }
-
-header("Location: login.php");
-exit();
-?>
