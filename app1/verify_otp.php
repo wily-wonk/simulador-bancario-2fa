@@ -5,15 +5,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['usuario'] ?? '';
     $otp = $_POST['otp'] ?? '';
 
-    // Prevención de Bypass: Asegurarnos de que el usuario POST es el mismo que pasó el auth.php
+    // Prevención de Bypass
     if (!isset($_SESSION['pre_auth_user']) || $user !== $_SESSION['pre_auth_user']) {
         header("Location: login.php");
         exit;
     }
 
     $exe_path = realpath(__DIR__ . '/../multiotp_5.10.2.2/windows/multiotp.exe');
-
-    // Armar el comando escapando variables (idéntico a la lógica de tu ws.php)
     $command = escapeshellarg($exe_path) . ' ' . escapeshellarg($user) . ' ' . escapeshellarg($otp);
 
     $output = [];
@@ -21,12 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exec($command . ' 2>&1', $output, $exitCode);
 
     if ($exitCode === 0) {
-        // ¡Doble factor superado!
+        // ¡Doble factor superado! Damos acceso total
         $_SESSION['autenticado'] = true;
         $_SESSION['usuario'] = $user;
 
-        // Destruimos la variable temporal
+        // TRASPASO DEL ROL: De la sesión temporal a la definitiva
+        $_SESSION['rol'] = $_SESSION['pre_auth_rol'];
+
+        // Limpiamos las variables temporales por seguridad
         unset($_SESSION['pre_auth_user']);
+        unset($_SESSION['pre_auth_rol']);
 
         header("Location: dashboard.php");
         exit;

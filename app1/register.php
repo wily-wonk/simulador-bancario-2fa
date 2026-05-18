@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main class="card">
         <h1>Registrar Usuario</h1>
-        <p class="subtitle">Añade un nuevo usuario y configura su 2FA</p>
+
 
         <?php if (!empty($mensaje)): ?>
             <div class="alert <?php echo $tipo_mensaje; ?>">

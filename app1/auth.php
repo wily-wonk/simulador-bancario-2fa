@@ -13,14 +13,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $password_hashed = sha1($password);
 
-    $stmt = $conn->prepare("SELECT id FROM usuarios WHERE usuario = ? AND password = ?");
+    // 1. Añadimos 'rol' a la consulta
+    $stmt = $conn->prepare("SELECT id, rol FROM usuarios WHERE usuario = ? AND password = ?");
     $stmt->bind_param("ss", $usuario, $password_hashed);
     $stmt->execute();
+
+    // 2. Vinculamos las variables de resultado
+    $stmt->bind_result($id_usuario, $rol_usuario);
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        // Credenciales correctas. Pasamos a la Fase 2 (OTP)
+        $stmt->fetch(); // Extraemos los datos de la BD
+
+        // 3. Credenciales correctas. Guardamos en variables temporales (Fase 1)
         $_SESSION['pre_auth_user'] = $usuario;
+        $_SESSION['pre_auth_rol'] = $rol_usuario;
+
+        // Lo mandamos a que ponga su código del celular
         header("Location: 2fa.php");
         exit;
     } else {

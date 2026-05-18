@@ -127,7 +127,6 @@
 
     <main class="card">
         <h1>Acceso al sistema</h1>
-        <p class="subtitle">Autenticacion por usuario y contrasena (sin 2FA)</p>
 
         <?php if (isset($_GET['error'])): ?>
             <div class="error">

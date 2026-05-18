@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Verificar si existe la sesión de usuario
 if (!isset($_SESSION["usuario"])) {
     header("Location: login.php");
     exit();
@@ -8,6 +9,7 @@ if (!isset($_SESSION["usuario"])) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,17 +44,31 @@ if (!isset($_SESSION["usuario"])) {
             color: #0f766e;
             font-weight: 700;
         }
+
+        .admin-link {
+            color: #991b1b;
+            /* Color distinto para resaltar que es zona admin */
+        }
     </style>
 </head>
+
 <body>
     <section class="panel">
         <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION["usuario"]); ?></h1>
-        <p>Inicio de sesion completado sin segundo factor.</p>
-        <a href="usuarios.php">Gestionar usuarios (ABM)</a>
+        <p>Rol actual: <strong><?php echo htmlspecialchars($_SESSION["rol"] ?? 'Desconocido'); ?></strong></p>
+
+        <!-- Lógica de control de acceso a nivel de vista -->
+        <?php if (isset($_SESSION["rol"]) && $_SESSION["rol"] === 'admin'): ?>
+            <a href="usuarios.php" class="admin-link"> Gestionar usuarios (ABM)</a>
+            <br>
+            <a href="auditoria.php" class="admin-link"> Ver registros de auditoría</a>
+            <br>
+        <?php endif; ?>
+
+        <a href="transferencias.php"> Módulo de transferencias bancarias</a>
         <br>
-        <a href="transferencias.php">Modulo de transferencias bancarias</a>
-        <br>
-        <a href="logout.php">Cerrar sesion</a>
+        <a href="logout.php" style="color: #5f6c80;">Cerrar sesión</a>
     </section>
 </body>
+
 </html>
