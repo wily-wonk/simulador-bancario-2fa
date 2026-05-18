@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<KeyContainer Version="1.0" xmlns="urn:ietf:params:xml:ns:keyprov:pskc:1.0">
+    <KeyProperties xml:id="FTTOTPKPID" KeyAlgorithm="http://www.ietf.org/keyprov/pskc#totp">
+        <Issuer>TestTokenIssuer</Issuer>
+        <Usage OTP="true">
+            <ResponseFormat Format="DECIMAL" Length="6"/>
+        </Usage>
+            <Data>
+            <Time>
+                <PlainValue>0</PlainValue>
+            </Time>
+            <TimeInterval>
+                <PlainValue>30</PlainValue>
+            </TimeInterval>
+            </Data>
+    </KeyProperties>
+    <Device>
+        <DeviceInfo>
+            <Manufacturer>TestTokenManufacturer</Manufacturer>
+        </DeviceInfo>
+        <Key KeyId="1234567890123" KeyProperties="FTTOTPKPID">
+            <Data>
+            <Secret>
+                <PlainValue>IjeK7j6W1Tk7MG1ZT+QP22usAAs=</PlainValue>
+            </Secret>
+            </Data>
+        </Key>
+    </Device>
+</KeyContainer>

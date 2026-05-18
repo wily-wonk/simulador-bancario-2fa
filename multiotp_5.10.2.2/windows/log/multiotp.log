@@ -1,0 +1,35 @@
+========================================
+multiotp 5.10.2.2
+Your script is running from C:\laragon\www\multiotp_5.10.2.2\windows\.\
+2026-04-23 02:33:24	info		Debug	Debug: *CheckToken intermediate result (totp) 19588, push_trial: -1 result: 99	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:24	warning	wrarana	User	Error: authentication failed for user wrarana	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:24	warning	wrarana	User	Error: User wrarana is now delayed for 300 seconds after 3 failed authentications	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:24	info		Debug	Debug: *CheckToken intermediate result 19890, result: 99	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:24	debug		Debug	Debug: *99 ERROR: Authentication failed (and other possible unknown errors)	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:24	debug		Debug	Debug: *Attributes sent to the RADIUS server: Reply-Message := "ERROR: Authentication failed (and other possible unknown errors)"	0	DESKTOP-SAL97I2	
+========================================
+multiotp 5.10.2.2
+Your script is running from C:\laragon\www\multiotp_5.10.2.2\windows\.\
+2026-04-23 02:33:28	debug		Debug	Debug: *30 ERROR: At least one parameter is missing	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:28	debug		Debug	Debug: *Attributes sent to the RADIUS server: Reply-Message := "ERROR: At least one parameter is missing"	0	DESKTOP-SAL97I2	
+========================================
+multiotp 5.10.2.2
+Your script is running from C:\laragon\www\multiotp_5.10.2.2\windows\.\
+2026-04-23 02:33:38	warning	wrarana	User	Error: User wrarana still delayed for 286 seconds after 3 failed authentications	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:38	info		Debug	Debug: *CheckToken intermediate result 19890, result: 25	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:38	debug		Debug	Debug: *25 ERROR: User delayed (too many tries, but still a hope in a few minutes)	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:38	debug		Debug	Debug: *Attributes sent to the RADIUS server: Reply-Message := "ERROR: User delayed (too many tries, but still a hope in a few minutes)"	0	DESKTOP-SAL97I2	
+========================================
+multiotp 5.10.2.2
+Your script is running from C:\laragon\www\multiotp_5.10.2.2\windows\.\
+2026-04-23 02:33:41	warning	wrarana	User	Error: User wrarana still delayed for 283 seconds after 3 failed authentications	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:41	info		Debug	Debug: *CheckToken intermediate result 19890, result: 25	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:41	debug		Debug	Debug: *25 ERROR: User delayed (too many tries, but still a hope in a few minutes)	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:41	debug		Debug	Debug: *Attributes sent to the RADIUS server: Reply-Message := "ERROR: User delayed (too many tries, but still a hope in a few minutes)"	0	DESKTOP-SAL97I2	
+========================================
+multiotp 5.10.2.2
+Your script is running from C:\laragon\www\multiotp_5.10.2.2\windows\.\
+2026-04-23 02:33:47	warning	wrarana	User	Error: User wrarana still delayed for 277 seconds after 3 failed authentications	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:47	info		Debug	Debug: *CheckToken intermediate result 19890, result: 25	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:47	debug		Debug	Debug: *25 ERROR: User delayed (too many tries, but still a hope in a few minutes)	0	DESKTOP-SAL97I2	
+2026-04-23 02:33:47	debug		Debug	Debug: *Attributes sent to the RADIUS server: Reply-Message := "ERROR: User delayed (too many tries, but still a hope in a few minutes)"	0	DESKTOP-SAL97I2	

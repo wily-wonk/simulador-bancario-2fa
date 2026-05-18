@@ -1,0 +1,5 @@
+#define LOGDIR		"\\freeradius-2.2.6\\var\\log\\radius"
+#define RADDBDIR	"\\freeradius-2.2.6\\etc\\raddb"
+#define RUNDIR		"\\freeradius-2.2.6\\var\\run"
+#define SBINDIR		"\\freeradius-2.2.6\\sbin"
+#define RADIR		"\\freeradius-2.2.6\\var\\log\\radius\\radacct"

@@ -1,0 +1,34 @@
+# -*- text -*-
+#
+#  $Id: 69ad3076119ec814518a6db45eec4bc41dc090f7 $
+
+#  Persistent, embedded Python interpreter.
+#
+python {
+		mod_instantiate = radiusd_test
+		func_instantiate = instantiate
+
+		mod_authorize = radiusd_test
+		func_authorize = authorize
+
+		mod_accounting = radiusd_test
+		func_accounting = accounting
+
+		mod_pre_proxy = radiusd_test
+		func_pre_proxy = pre_proxy
+
+		mod_post_proxy = radiusd_test
+		func_post_proxy = post_proxy
+
+		mod_post_auth = radiusd_test
+		func_post_auth = post_auth
+
+		mod_recv_coa = radiusd_test
+		func_recv_coa = recv_coa
+
+		mod_send_coa = radiusd_test
+		func_send_coa = send_coa
+
+		mod_detach = radiusd_test
+		func_detach = detach
+	}
