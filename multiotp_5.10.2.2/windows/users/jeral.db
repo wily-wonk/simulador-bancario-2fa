@@ -27,12 +27,12 @@ last_error=1779143998
 last_event=-1
 last_failed_credential=659fd492aecf107bb6e8e7854b2f88f658f100d0
 last_failed_time=1779143998
-last_login=1779145200
+last_login=1779150180
 last_login_for_cache=0
-last_success_credential=d88073c8f71ffffc60ff66080d1b4b02e3f82583
+last_success_credential=278dd736a661f311cdc1e65a74d60b0ef7a71af0
 last_sync_update=0
 last_sync_update_host=
-last_update=1779145251
+last_update=1779150215
 last_update_host=DESKTOP-SAL97I2
 ldap_hash_cache:=
 ldap_hash_validity=0
@@ -62,7 +62,7 @@ token_algo_suite=HMAC-SHA1
 token_seed:=CGw/M3pRZUVqNARjbHYmTWM8aDNbPnYVaQ8iIjwnUjZmQjEKMnhwcw==
 token_serial=
 user=
-user_last_login=1779145251
+user_last_login=1779150215
 user_pin:=ByAwJg==
 user_principal_name=
 encryption_hash=99CCFC0D033729754B6BB4832FE786A1

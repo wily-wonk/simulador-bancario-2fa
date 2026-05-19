@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once "conexion.php";
 
 if (!isset($_SESSION["usuario"])) {
@@ -197,57 +197,60 @@ if ($qHistorial) {
     <title>Módulo de Transferencias - Seguro</title>
     <style>
         :root {
-            --bg: #f3f7fb;
-            --card: #ffffff;
-            --text: #1b2a41;
-            --muted: #5f6c80;
-            --accent: #0f766e;
-            --accent-dark: #115e59;
-            --border: #d9e2ec;
-            --ok-bg: #dcfce7;
-            --ok-text: #166534;
-            --err-bg: #fee2e2;
-            --err-text: #991b1b;
-            --danger: #b91c1c;
+            --bg-start: #0B1120;
+            --bg-end: #000000;
+            --card-bg: rgba(15, 23, 42, 0.72);
+            --card-border: rgba(56, 189, 248, 0.12);
+            --muted: #94a3b8;
+            --text: #e2e8f0;
+            --accent: #0ea5e9;
+            --accent-2: #0d9488;
+            --danger: #fb923c;
+            --glass-blur: 10px
         }
 
         * {
-            box-sizing: border-box;
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0
         }
 
         body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
             color: var(--text);
-            background: radial-gradient(circle at top right, #dff3ef 0%, var(--bg) 45%);
-            padding: 20px;
+            padding: 28px
         }
 
         .wrap {
             max-width: 1050px;
             margin: 0 auto;
             display: grid;
-            gap: 16px;
+            gap: 16px
         }
 
         .card {
-            background: var(--card);
-            border: 1px solid var(--border);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 14px;
             padding: 20px;
-            box-shadow: 0 12px 30px rgba(27, 42, 65, 0.08);
+            box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6);
+            backdrop-filter: blur(var(--glass-blur))
         }
 
         h1,
         h2 {
-            margin: 0 0 12px;
+            margin: 0 0 12px
         }
 
         .hint {
             margin-top: -4px;
             color: var(--muted);
-            font-size: 0.92rem;
+            font-size: 0.92rem
         }
 
         .msg,
@@ -255,23 +258,21 @@ if ($qHistorial) {
             padding: 10px 12px;
             border-radius: 10px;
             margin-bottom: 12px;
-            font-size: 0.93rem;
+            font-size: 0.93rem
         }
 
         .msg {
-            background: var(--ok-bg);
-            color: var(--ok-text);
+            background: rgba(34, 197, 94, 0.08)
         }
 
         .err {
-            background: var(--err-bg);
-            color: var(--err-text);
+            background: rgba(248, 113, 113, 0.06)
         }
 
         .grid {
             display: grid;
             gap: 10px;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
         }
 
         label {
@@ -279,6 +280,7 @@ if ($qHistorial) {
             margin-bottom: 5px;
             font-weight: 600;
             font-size: 0.92rem;
+            color: var(--muted)
         }
 
         input,
@@ -286,104 +288,117 @@ if ($qHistorial) {
             width: 100%;
             padding: 10px 12px;
             border-radius: 10px;
-            border: 1px solid var(--border);
+            background: #0f1724;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             font-size: 0.95rem;
-            background: #fff;
+            color: var(--text)
         }
 
         .btn {
-            border: none;
             border-radius: 10px;
             padding: 10px 12px;
-            color: #fff;
+            color: #001217;
+            font-weight: 800;
             cursor: pointer;
-            font-weight: 700;
             text-decoration: none;
-            display: inline-block;
-            background: var(--accent);
+            display: inline-block
         }
 
-        .btn:hover {
-            background: var(--accent-dark);
+        .btn-main {
+            background: linear-gradient(180deg, var(--accent), var(--accent-2))
         }
 
         .btn-danger {
-            background: var(--danger);
+            background: linear-gradient(180deg, #fb923c, #f97316);
+            color: #081019;
+            border: none;
+            font-weight: 800
         }
 
         .top-links {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 8px;
+            margin-top: 8px
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 8px;
-            font-size: 0.94rem;
+            font-size: 0.94rem
         }
 
         th,
         td {
             text-align: left;
             padding: 10px;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            vertical-align: middle
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 700
         }
 
         .money {
             font-weight: 700;
+            color: var(--text)
         }
 
         .badge {
             display: inline-block;
             padding: 3px 8px;
-            background: #e2e8f0;
+            background: rgba(255, 255, 255, 0.04);
             border-radius: 12px;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 700;
+            color: var(--muted)
         }
 
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
             align-items: center;
-            z-index: 1000;
+            justify-content: center;
+            z-index: 1000
         }
 
         .modal-content {
-            background: #fff;
-            padding: 25px;
+            background: var(--card-bg);
+            padding: 22px;
             border-radius: 12px;
-            width: 320px;
+            width: 340px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6)
         }
 
         .modal-content h3 {
-            margin-top: 0;
-            color: var(--accent);
+            margin: 0 0 8px;
+            color: var(--accent)
         }
 
         .modal-content input {
-            margin-bottom: 15px;
-            text-align: center;
-            letter-spacing: 2px;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            background: #0f1724;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            margin-bottom: 12px
         }
 
         .modal-content .btn-group {
             display: flex;
             gap: 10px;
-            justify-content: center;
+            justify-content: center
         }
+        /* Hacer visibles solo los enlaces Volver al dashboard y Cerrar sesión */
+        a[href="dashboard.php"], a[href="logout.php"] { color: #ffffff !important; }
     </style>
 </head>
 
@@ -597,6 +612,12 @@ if ($qHistorial) {
                 formActual.submit();
             }
         }
+
+        // Asegurar que el modal esté oculto al cargar la página
+        document.addEventListener('DOMContentLoaded', function(){
+            const modal = document.getElementById('otpModal');
+            if(modal) modal.style.display = 'none';
+        });
     </script>
 </body>
 

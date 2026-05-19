@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<?php if (session_status() !== PHP_SESSION_ACTIVE) session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,118 +7,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
+        /* Dark professional theme - Glassmorphism */
         :root {
-            --bg: #f3f7fb;
-            --card: #ffffff;
-            --text: #1b2a41;
-            --muted: #5f6c80;
-            --accent: #0f766e;
-            --accent-dark: #115e59;
-            --error-bg: #fee2e2;
-            --error-text: #991b1b;
-            --border: #d9e2ec;
+            --bg-start: #0B1120;
+            /* deep navy */
+            --bg-end: #000000;
+            /* black */
+            --card-bg: rgba(15, 23, 42, 0.72);
+            --card-border: rgba(56, 189, 248, 0.12);
+            --muted: #94a3b8;
+            --text: #e2e8f0;
+            --title: #ffffff;
+            --accent: #0ea5e9;
+            /* cyan accent */
+            --accent-2: #0d9488;
+            /* teal */
+            --danger: rgba(248, 113, 113, 0.12);
+            --danger-text: #f87171;
+            --success: rgba(34, 197, 94, 0.12);
+            --success-text: #86efac;
+            --input-bg: #111827;
+            --glass-blur: 10px;
         }
 
         * {
-            box-sizing: border-box;
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0
         }
 
         body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
             color: var(--text);
-            background: radial-gradient(circle at top right, #dff3ef 0%, var(--bg) 45%);
-            display: grid;
-            place-items: center;
-            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
         }
 
         .card {
             width: 100%;
-            max-width: 420px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
+            max-width: 460px;
             padding: 28px;
-            box-shadow: 0 12px 30px rgba(27, 42, 65, 0.1);
+            border-radius: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6);
         }
 
         h1 {
-            margin: 0 0 8px;
-            font-size: 1.6rem;
+            color: var(--title);
+            margin: 0 0 6px;
+            font-size: 1.5rem
         }
 
         .subtitle {
-            margin: 0 0 20px;
             color: var(--muted);
-            font-size: 0.95rem;
+            margin: 0 0 18px;
+            font-size: 0.95rem
         }
 
-        .error {
-            margin-bottom: 14px;
-            padding: 10px 12px;
+        .notice {
             border-radius: 10px;
-            background: var(--error-bg);
-            color: var(--error-text);
-            font-size: 0.92rem;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+            font-size: 0.93rem
+        }
+
+        .notice.error {
+            background: var(--danger);
+            color: var(--danger-text);
+        }
+
+        .notice.success {
+            background: var(--success);
+            color: var(--success-text);
         }
 
         label {
             display: block;
             margin: 12px 0 6px;
             font-weight: 600;
-            font-size: 0.92rem;
+            color: var(--muted);
+            font-size: 0.92rem
         }
 
-        input {
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
+            padding: 12px 14px;
             border-radius: 10px;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text);
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: box-shadow .18s ease, border-color .18s ease, transform .06s ease;
         }
 
-        input:focus {
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            box-shadow: 0 6px 22px rgba(14, 165, 233, 0.12);
             border-color: var(--accent);
         }
 
-        button {
-            width: 100%;
-            margin-top: 18px;
-            border: none;
-            border-radius: 10px;
-            padding: 11px;
-            background: var(--accent);
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s ease;
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px
         }
 
-        button:hover {
-            background: var(--accent-dark);
+        button[type="submit"] {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(180deg, var(--accent), var(--accent-2));
+            color: #001217;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        button[type="submit"]:hover {
+            filter: brightness(.95);
+            transform: translateY(-1px)
         }
 
         .register-link {
-            display: block;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
             margin-top: 12px;
-            padding: 11px;
-            border: 1px solid var(--border);
+            padding: 10px;
             border-radius: 10px;
             color: var(--accent);
-            text-align: center;
             text-decoration: none;
             font-weight: 700;
-            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            border: 1px solid transparent
         }
 
         .register-link:hover {
-            background: #e8f7f4;
-            border-color: var(--accent);
-            color: var(--accent-dark);
+            background: rgba(14, 165, 233, 0.06);
+            border-color: rgba(14, 165, 233, 0.12)
+        }
+
+        @media (max-width:420px) {
+            .card {
+                padding: 20px
+            }
         }
     </style>
 </head>
@@ -127,9 +169,10 @@
 
     <main class="card">
         <h1>Acceso al sistema</h1>
+        <p class="subtitle">Autenticación segura — Usuario y contraseña</p>
 
         <?php if (isset($_GET['error'])): ?>
-            <div class="error">
+            <div class="notice error">
                 <?php
                 $error = $_GET['error'];
                 if ($error === '1') {
@@ -150,7 +193,9 @@
             <label for="password">Contrasena</label>
             <input id="password" type="password" name="password" required>
 
-            <button type="submit">Ingresar</button>
+            <div class="actions">
+                <button type="submit">Ingresar</button>
+            </div>
         </form>
 
         <a class="register-link" href="register.php">Crear cuenta nueva</a>

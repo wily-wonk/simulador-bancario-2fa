@@ -1,5 +1,5 @@
 <?php
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 require_once "conexion.php";
 
 // Solo el admin tiene acceso a los logs del sistema
@@ -23,57 +23,91 @@ if ($query) {
     <meta charset="UTF-8">
     <title>Auditoría de Seguridad (Logs)</title>
     <style>
+        :root {
+            --bg-start: #0B1120;
+            --bg-end: #000000;
+            --card-bg: rgba(15, 23, 42, 0.72);
+            --card-border: rgba(56, 189, 248, 0.12);
+            --muted: #94a3b8;
+            --text: #e2e8f0;
+            --accent: #0ea5e9;
+            --danger: #fb923c;
+            --glass-blur: 10px
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
         body {
-            font-family: "Segoe UI", sans-serif;
-            background: #f3f7fb;
-            color: #1b2a41;
-            padding: 20px;
+            height: 100%;
+            margin: 0
+        }
+
+        body {
+            font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+            color: var(--text);
+            padding: 28px
         }
 
         .card {
-            background: #fff;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             max-width: 1200px;
             margin: 0 auto;
+            backdrop-filter: blur(var(--glass-blur));
+            box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6)
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
-            margin-top: 15px;
+            font-size: 0.95rem;
+            margin-top: 15px
         }
 
         th,
         td {
             padding: 10px;
-            border-bottom: 1px solid #d9e2ec;
+            color: #ffffff;
             text-align: left;
+            vertical-align: top
         }
 
         th {
-            background: #0f766e;
-            color: white;
+            color: var(--muted);
+
+        /* Hacer visibles solo los enlaces Volver al dashboard y Cerrar sesión */
+        a[href="dashboard.php"], a[href="logout.php"] { color: #ffffff !important; }
+            font-weight: 700
         }
 
         .badge {
-            background: #e2e8f0;
-            padding: 3px 8px;
+            background: linear-gradient(180deg, rgba(251, 146, 60, 0.08), rgba(251, 146, 60, 0.03));
+            padding: 4px 8px;
             border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--danger)
         }
 
         .btn {
-            background: #0f766e;
-            color: white;
+            background: linear-gradient(180deg, var(--accent), #0d9488);
+            color: #001217;
             padding: 10px 15px;
             text-decoration: none;
             border-radius: 8px;
-            font-weight: bold;
-            display: inline-block;
+            font-weight: 800;
+            display: inline-block
+        }
+
+        .ip-cell {
+            font-family: monospace;
+            color: #fda4af;
+            font-weight: 700
         }
     </style>
 </head>
