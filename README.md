@@ -39,6 +39,7 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina local:
    └── /multiotp_5.10.2.2
        └── /windows
            └── multiotp.exe
+   ```
 
    <img width="838" height="625" alt="image" src="https://github.com/user-attachments/assets/4d3891d9-984a-458b-bad6-e6eca5af9b35" />
 
