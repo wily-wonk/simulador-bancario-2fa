@@ -3,8 +3,7 @@
 ![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?style=flat-square&logo=php)
 ![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?style=flat-square&logo=mysql)
 ![Security](https://img.shields.io/badge/Security-2FA%20%7C%20OTP-0f766e?style=flat-square)
-
-Desarrollado por **w1ll_r00t**. 
+ 
 
 Este proyecto es un simulador de entorno transaccional bancario diseñado con un enfoque estricto en la Ciberseguridad. Implementa **Autenticación Escalonada (Step-up Authentication)** y prevención de vulnerabilidades clásicas (OWASP), garantizando la integridad y confidencialidad de las operaciones financieras.
 
