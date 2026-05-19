@@ -61,43 +61,57 @@ Al completar el registro, el servidor genera de forma dinámica un código QR ú
 ### 3. Autenticación Fase 1 (Credenciales Clásicas)
 El primer paso del control de acceso verifica únicamente el nombre de usuario y la contraseña contra la base de datos. Si es correcto, el rol se guarda en una sesión temporal, sin otorgar acceso aún.
 <br>
-<img width="673" height="579" alt="image" src="https://github.com/user-attachments/assets/71a5d670-d55f-44e1-a0b6-1298c85e5911" />
+
+
+<img width="667" height="581" alt="image" src="https://github.com/user-attachments/assets/deafe1cf-870f-4777-b3eb-cde8a6f80206" />
+
 <br><br>
 
 ### 4. Autenticación Fase 2 (Desafío OTP)
 Prevención directa contra filtración de contraseñas. El sistema exige el token temporal de 6 dígitos generado por la aplicación del usuario. Solo al validarse contra el servidor multiOTP, se concede el acceso al sistema.
 <br>
-<img width="1708" height="533" alt="image" src="https://github.com/user-attachments/assets/1cf93a42-3029-450d-b100-1dfd79c091c6" />
+<img width="673" height="579" alt="image" src="https://github.com/user-attachments/assets/71a5d670-d55f-44e1-a0b6-1298c85e5911" />
 <br><br>
 
 ### 5. Dashboard (Control de Acceso Basado en Roles - RBAC)
 La vista del panel principal varía dinámicamente según el privilegio del usuario. Los administradores tienen acceso completo a las herramientas de gestión (ABM y Auditoría), mientras que los clientes solo ven los módulos operativos.
 <br>
-[Aquí tu captura del Dashboard, preferiblemente mostrando la vista de Admin]
+
+<img width="1210" height="596" alt="image" src="https://github.com/user-attachments/assets/2fe8fbae-5d75-48aa-8bb7-e2888bf03f11" />
+
+
 <br><br>
 
 ### 6. Módulo de Transferencias y Prevención IDOR
 El simulador bancario implementa una protección estricta contra referencias directas a objetos inseguros (IDOR). Un usuario "Cliente" solo podrá ver y retirar fondos de las cuentas de las que es propietario legalmente verificado en el backend.
 <br>
-[Aquí tu captura de la pantalla de transferencias (mostrando "Mis Cuentas y Saldos")]
+
+<img width="1537" height="881" alt="image" src="https://github.com/user-attachments/assets/301fd3e6-c089-4fee-85ab-ad1912b4f927" />
+
 <br><br>
 
 ### 7. Firma Transaccional (Step-up Authentication)
 Protección contra el secuestro de sesión (Session Hijacking). Al intentar realizar acciones críticas (como transferir dinero o eliminar un usuario), un modal de seguridad intercepta la solicitud y exige una re-autenticación mediante OTP antes de tocar la base de datos.
 <br>
-[Aquí tu captura del Modal oscuro pidiendo el OTP para autorizar]
+
+<img width="887" height="383" alt="image" src="https://github.com/user-attachments/assets/8e58411f-31af-4b3f-8ff4-9582fd5c2c09" />
+
 <br><br>
 
 ### 8. Gestión de Usuarios (Exclusivo Admin)
 Panel de control centralizado (ABM) donde el cajero/administrador puede dar de alta, modificar roles o dar de baja a usuarios y sus cuentas TOTP de forma sincronizada. 
 <br>
-[Aquí tu captura del formulario de ABM Usuarios]
+
+<img width="819" height="900" alt="image" src="https://github.com/user-attachments/assets/088eca5e-ab80-4f3d-b936-91906a43afa9" />
+
 <br><br>
 
 ### 9. SIEM Interno: Auditoría y Trazabilidad Forense
 Para garantizar el no repudio, todas las acciones críticas quedan registradas de forma inmutable. La tabla de auditoría permite a la gerencia rastrear eventos respondiendo al Quién (Usuario/Rol), Qué (Módulo/Acción), Cuándo (Fecha) y Dónde (Dirección IP de origen).
 <br>
-[Aquí tu captura de la tabla de Auditoría con las IPs y roles]
+
+<img width="1214" height="746" alt="image" src="https://github.com/user-attachments/assets/bb88fed8-8adf-4f2e-8fe3-cb7fe4945b97" />
+
 
 
 
