@@ -42,12 +42,16 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina local:
    ```
 
    <img width="838" height="625" alt="image" src="https://github.com/user-attachments/assets/4d3891d9-984a-458b-bad6-e6eca5af9b35" />
+   ---
 
    <img width="849" height="738" alt="image" src="https://github.com/user-attachments/assets/57df3b9c-5d78-492f-8bf4-8a9087fb5277" />
+   ---
 
    <img width="673" height="579" alt="image" src="https://github.com/user-attachments/assets/71a5d670-d55f-44e1-a0b6-1298c85e5911" />
+   ---
 
    <img width="1708" height="533" alt="image" src="https://github.com/user-attachments/assets/1cf93a42-3029-450d-b100-1dfd79c091c6" />
+   ---
 
 
 
